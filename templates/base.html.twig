@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+
+    {% endblock %}
+</head>
+<body class="" >
+<button class="btn btn-toolbar" id="menu_button"> O</button>
+<div id="side_bar">
+    <nav>
+        <ul>
+            <li class="no_decoration">
+                <a class='no_decoration fw-bold' href="{{path('app_client_index')}}">Clients</a>
+            </li>
+            <li class="no_decoration">
+                <a class='no_decoration fw-bold' href="{{path('app_vehicule_index')}}">Véhicules</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div id="opacity-bg" class="hidden"></div>
+<div >
+    <div class="container-fluid">
+        {% block body %}
+        {% for unpayed in unpayeds %}
+            {{ unpayed.vehicule.name }}
+            {% endfor %}
+        {% endblock %}
+    </div>
+</div>
+<script>
+    var toggle = false;
+    var bgOpacity = document.getElementById('opacity-bg')
+    $(document).ready(function(){
+        $('#menu_button').on('click', function (){
+            bgOpacity.classList.remove('hidden');
+            $('#side_bar').animate({
+                left: toggle ? "-200px"  : "0px"
+            },200,function(){
+                toggle = !toggle;
+            })
+        });
+        bgOpacity.onclick = function(){
+            bgOpacity.classList.add('hidden');
+            $('#side_bar').animate({
+                left: toggle ? "-200px"  : "0px"
+            },200,function(){
+                toggle = !toggle;
+            })
+        }
+    })
+</script>
+</body>
+</html>
